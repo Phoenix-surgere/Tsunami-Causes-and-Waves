@@ -16,14 +16,15 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 zf = zipfile.ZipFile('seismic-waves.zip') 
-waves = pd.read_csv(zf.open('waves.csv'))
+#waves = pd.read_csv(zf.open('waves.csv'))
 sources = pd.read_csv(zf.open('sources.csv'))
 
 
-waves['running_total'] = np.arange(1, len(waves)+1)  #to plot histogram of cumulative history
+sources['running_total'] = np.arange(1, len(sources)+1)  #to plot histogram of cumulative history
+
 fig, (ax1, ax2) = plt.subplots(nrows=2)
-sns.lineplot(ax=ax1, x='YEAR',y='running_total',data=waves)
-sns.lineplot(ax=ax2, x='YEAR',y='running_total',data=waves)
+sns.lineplot(ax=ax1, x='YEAR',y='running_total',data=sources)
+sns.lineplot(ax=ax2, x='YEAR',y='running_total',data=sources)
 ax2.set_xlim(1900, 2020 )
 plt.show()
 
@@ -34,8 +35,8 @@ months = {
           }
 months = {v: k for k, v in months.items()}
 
-waves.MONTH.replace(months,inplace=True)
-by_month = pd.DataFrame(waves.MONTH.value_counts())
+sources.MONTH.replace(months,inplace=True)
+by_month = pd.DataFrame(sources.MONTH.value_counts())
 by_month = by_month.T
 
 sns.barplot(data=by_month) 
