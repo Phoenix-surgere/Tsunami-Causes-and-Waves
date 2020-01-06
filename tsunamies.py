@@ -34,8 +34,17 @@ months = {
 'September': 9.0, 'October': 10.0, 'November': 11.0, 'December':12.0
           }
 months = {v: k for k, v in months.items()}
-
 sources.MONTH.replace(months,inplace=True)
+
+valid = {-1.0 : 'Bad entry', 
+         0.0: 'River-level effect',
+         1.0: 'Very doubtful',
+         2.0: 'Questionable',
+         3.0: 'Probable',
+         4.0: 'Definite'}
+sources.VALIDITY.replace(valid,inplace=True)
+sources.VALIDITY.value_counts().plot.pie()
+
 by_month = pd.DataFrame(sources.MONTH.value_counts())
 by_month = by_month.T
 
