@@ -54,3 +54,28 @@ plt.ylabel('Tsunamies')
 plt.grid(True)
 plt.xticks(rotation=90)
 plt.show()
+
+causes = {
+0 : 'Unknown', 1 : 'Earthquake', 2 : 'Questionable Earthquake', 
+3 : 'Earthquake and Landslide', 4 : 'Volcano and Earthquake', 
+5 : 'Volcano, Earthquake, and Landslide', 6 : 'Volcano', 
+7 : 'Volcano and Landslide', 8 : 'Landslide', 9 : 'Meteorological', 
+10: 'Explosion', 11: 'Astronomical Tide', 
+        }
+sources.CAUSE.replace(causes,inplace=True)
+by_cause = pd.DataFrame(sources.CAUSE.value_counts()).T
+fig, (ax1,ax2) = plt.subplots(nrows=2, figsize=(7,7))
+plt.xticks(rotation=90)
+
+fig.suptitle('Tsunami Causes') # or plt.suptitle('Main title')
+ax1.grid(True); ax2.grid(True)
+ax1.title.set_text('Primary Causes')
+ax2.title.set_text('Secondary Causes')
+sns.barplot(ax=ax1, data=by_cause.iloc[:, 0:4], orient="h")
+sns.barplot(ax=ax2, data=by_cause.iloc[:, 4:-1], orient="h")
+
+by_country = pd.DataFrame(sources.COUNTRY.value_counts()).T
+plt.xticks(rotation=90)
+plt.title('Tsunamies per Country')
+plt.grid(True)
+sns.barplot(data=by_country.iloc[:, 0:15])
