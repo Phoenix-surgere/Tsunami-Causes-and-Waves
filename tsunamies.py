@@ -101,3 +101,31 @@ sns.distplot(sources.MAGNITUDE_IIDA.dropna(), ax=ax2)
 ax2.set_ylabel('MAGNITUDE_IIDA')
 sns.violinplot(x=sources.INTENSITY_SOLOVIEV.dropna(), ax=ax3)
 plt.show()
+
+#Exploring the relationship between height and those metrics
+sns.relplot(x='MAXIMUM_HEIGHT', y='INTENSITY_SOLOVIEV',data=sources, hue='VALIDITY')
+sns.relplot(x='MAXIMUM_HEIGHT', y='MAGNITUDE_IIDA', data=sources,hue='VALIDITY')
+plt.show()
+plt.clf()
+
+by_totals = {
+0: '0', 1: '1-50', 2 : '51-100' , 3 : '101-1000',  4 : '>1001'}
+
+by_dmg=  {   
+0 : '0', 1 : '<1M', 2 : '1-5M', 3 : '5-25M', 4 : '>5M' }
+
+sources.DAMAGE_TOTAL.replace(by_dmg, inplace=True)
+totals = sources.filter(regex=r'.+_TOTAL').drop(columns=['DAMAGE_TOTAL'])
+totals = totals.replace(by_totals)
+sources[totals.columns] = totals
+
+plt.title('Total Damage by Tsunamies and Sources')
+plt.grid(True)
+sns.countplot(x='DAMAGE_TOTAL', data=sources)
+
+for col in sources[totals.columns]:
+    plt.title(col)
+    plt.grid(True)
+    sns.countplot(x=col, data=sources)
+    plt.show()
+
