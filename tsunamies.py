@@ -80,6 +80,7 @@ plt.title('Tsunamies per Country')
 plt.grid(True)
 sns.barplot(data=by_country.iloc[:, 0:15])
 
+#Zooming in on height
 fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(5,5))
 sns.boxplot(y='MAXIMUM_HEIGHT', data=sources, ax=ax1)
 sns.stripplot(y='MAXIMUM_HEIGHT', data=sources, ax=ax2)
@@ -92,5 +93,11 @@ height_bins.reset_index(drop=True,inplace=True)
 print('Wave Height equal binning: \n')
 print(height_bins.value_counts())
 
-sns.distplot(sources.MAXIMUM_HEIGHT.dropna(), bins=3)
-
+#More comprehensive overview of intensities and magnitudes, together with height
+fig, (ax1, ax2,ax3) = plt.subplots(nrows=3, figsize=(7,7))
+fig.suptitle('Distplots of Intensity + Height')
+sns.stripplot(y='MAXIMUM_HEIGHT', data=sources, ax=ax1)
+sns.distplot(sources.MAGNITUDE_IIDA.dropna(), ax=ax2)
+ax2.set_ylabel('MAGNITUDE_IIDA')
+sns.violinplot(x=sources.INTENSITY_SOLOVIEV.dropna(), ax=ax3)
+plt.show()
