@@ -79,3 +79,18 @@ plt.xticks(rotation=90)
 plt.title('Tsunamies per Country')
 plt.grid(True)
 sns.barplot(data=by_country.iloc[:, 0:15])
+
+fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(5,5))
+sns.boxplot(y='MAXIMUM_HEIGHT', data=sources, ax=ax1)
+sns.stripplot(y='MAXIMUM_HEIGHT', data=sources, ax=ax2)
+ax1.set_ylim(0, 50)
+plt.show()
+
+height_bins = pd.cut(sources.MAXIMUM_HEIGHT, bins=3)
+height_bins.dropna(inplace=True)
+height_bins.reset_index(drop=True,inplace=True)
+print('Wave Height equal binning: \n')
+print(height_bins.value_counts())
+
+sns.distplot(sources.MAXIMUM_HEIGHT.dropna(), bins=3)
+
